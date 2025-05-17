@@ -20,6 +20,7 @@
   "homepage": "https://github.com/pmvroque15/CapStoneProject_WebBlogPost#readme",
   "dependencies": {
     "body-parser": "^2.2.0",
+    "bootstrap": "^5.3.6",
     "ejs": "^3.1.10",
     "express": "^5.1.0"
   }
