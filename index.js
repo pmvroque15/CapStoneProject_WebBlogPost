@@ -2,7 +2,7 @@ import bodyParser from "body-parser";
 import express, { Router } from "express"
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import { Router } from "express";
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -21,6 +21,12 @@ app.get("/", (req, res) => {
 
 app.get("/about", (req, res) => {
     res.render("about.ejs")
+})
+app.get("/contact", (req, res) => {
+    res.render("contact.ejs")
+})
+app.get("/blog", (req, res) => {
+    res.render("blog.ejs")
 })
 app.listen(port, () => {
     console.log(`Running in port ${port}`)
