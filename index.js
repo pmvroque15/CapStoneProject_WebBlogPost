@@ -22,7 +22,7 @@ const posts = []
 app.get("/", (req, res) => {
   res.render("home", {
     homeContent: homeStartingContent,
-    posts: posts
+    posts
   });
 });
 
@@ -48,7 +48,7 @@ app.get("/compose", (req, res) => {
   res.render('compose')
 })
 
-app.get("/compose", (req, res) => {
+app.post("/compose", (req, res) => {
   const postTitle = req.body.postTitle
   const postContent = req.body.postContent
   const postObj = {
@@ -56,15 +56,29 @@ app.get("/compose", (req, res) => {
     content: postContent
   }
   posts.push(postObj)
+ 
   res.redirect('/')
 })
 
-app.post("/compose", (req, res) => {
-  const newPostTitle = req.body.postTitle
-  const newPostContent = req.body.postContent
-  
-  console.log(newPostTitle)
-  console.log(newPostContent)
+
+
+app.get('/posts/:postID', (req, res) => {
+  let postTitle = req.params.postID
+  let postContent = ''
+  let title = ''
+
+  posts.forEach((post) => {
+    title = post.title
+    content = post.content
+  })
+
+  if(_.toLower(postTitle) == _.toLower(title)) {
+    res.render(
+      'post',
+      {
+        title,
+        content
+      })}
 })
 
 app.listen(port, () => {
