@@ -1,33 +1,65 @@
+import express from "express";
 import bodyParser from "body-parser";
-import express, { Router } from "express"
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 const port = 3000;
 
 
-app.use(express.static('public'));
+const homeStartingContent =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat libero nec finibus sagittis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Suspendisse potenti. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed pulvinar ullamcorper est. Quisque eget imperdiet justo. In sed convallis purus. Morbi consequat in nisl sit amet dignissim.";
 
+app.set('view engine', 'ejs');
+app.use(express.static("public"));
+app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-   res.render("index.ejs")
-})
+  res.render("home", {
+    homeContent: homeStartingContent,
+  });
+});
+
 
 app.get("/about", (req, res) => {
-    res.render("about.ejs")
-})
+  res.render('about', 
+  {
+    aboutContent
+  });
+});
+
 app.get("/contact", (req, res) => {
-    res.render("contact.ejs")
+  res.render("contact", 
+  {
+    contactContent
+  });
+});
+
+app.get("/compose", (req, res) => {
+  res.render('compose')
 })
-app.get("/blog", (req, res) => {
-    res.render("blog.ejs")
+
+app.get("/compose", (req, res) => {
+  const postTitle = req.body.postTitle
+  const postContent = req.body.postContent
+  const postObj = {
+    title: postTitle,
+    content: postContent
+  }
+  posts.push(postObj)
+  res.redirect('/')
+})
+
+app.post("/compose", (req, res) => {
+  const newPostTitle = req.body.postTitle
+  const newPostContent = req.body.postContent
+  
+  console.log(newPostTitle)
+  console.log(newPostContent)
 })
 app.listen(port, () => {
-    console.log(`Running in port ${port}`)
-})
+  console.log(`Listening on port ${port}`);
+});
