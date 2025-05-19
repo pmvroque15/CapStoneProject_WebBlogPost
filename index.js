@@ -17,12 +17,18 @@ app.use(express.static("public"));
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const posts = []
+
 app.get("/", (req, res) => {
   res.render("home", {
     homeContent: homeStartingContent,
+    posts: posts
   });
 });
 
+app.get("/login", (req, res) => {
+  res.render('login.ejs')
+})
 
 app.get("/about", (req, res) => {
   res.render('about', 
@@ -60,6 +66,7 @@ app.post("/compose", (req, res) => {
   console.log(newPostTitle)
   console.log(newPostContent)
 })
+
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
