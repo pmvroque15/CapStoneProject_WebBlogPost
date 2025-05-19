@@ -1,5 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
+import _ from "lodash";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
@@ -62,23 +63,30 @@ app.post("/compose", (req, res) => {
 
 
 
-app.get('/posts/:postID', (req, res) => {
+app.get('/posts/:postID', (req, res) => { 
   let postTitle = req.params.postID
-  let postContent = ''
-  let title = ''
+  let postContent = ''  
+  let title = ''        
+  let currentContent = '' 
 
   posts.forEach((post) => {
-    title = post.title
-    content = post.content
+    
+    if(_.toLower(postTitle) === _.toLower(post.title)) {
+      title = post.title
+      currentContent = post.content  
+    }
   })
 
-  if(_.toLower(postTitle) == _.toLower(title)) {
+  if(title) {  
     res.render(
       'post',
       {
         title,
-        content
-      })}
+        content: currentContent  
+      })
+  } else {
+    res.redirect('/')  
+  }
 })
 
 app.listen(port, () => {
