@@ -10,8 +10,8 @@
                 <% truncShortText = shortText.substring(0, 150) %> 
                 <%= truncShortText %>
                 </p>
-                <a href="/edit/<%= post.id %>">Edit</a>
-            <a href="/posts/<%= post.id %>">Read More</a>
+            <a class="btn btn-info" href="/edit/<%= post.id %>">Edit</a>
+            <a class="btn btn-info" href="/posts/<%= post.id %>">Read More</a>
             <form action="/delete/<%= post.id %>" method="POST" style="display:inline;">
   <button type="submit" class="btn btn-danger">Delete</button>
 </form>

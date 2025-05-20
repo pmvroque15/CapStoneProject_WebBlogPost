@@ -1,9 +1,15 @@
 <%- include('partials/header.ejs') %>
 <h2>Edit Post</h2>
 <form id="editForm">
-  <input type="text" name="title" value="<%= post.title %>" required />
-  <textarea name="content" required><%= post.content %></textarea>
-  <button type="submit">Save Changes</button>
+<div class="mb-3">
+  <label for="exampleFormControlInput1" class="form-label">Email address</label>
+  <input name="title" type="text" class="form-control" id="exampleFormControlInput1" value="<%= post.title %>" required >
+</div>
+<div class="mb-3">
+  <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+  <textarea name="content" required class="form-control" id="exampleFormControlTextarea1" rows="3"><%= post.content %></textarea>
+</div>
+  <button class="btn btn-primary" type="submit">Save Changes</button>
 </form>
 
 <script>
