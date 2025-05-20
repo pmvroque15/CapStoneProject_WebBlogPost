@@ -6,11 +6,15 @@
         <div class="postStyle">
             <h3><%= post.title %></h3>
             <p>
-            <% var shortText = post.content %> 
-            <% truncShortText = shortText.substring(0, 150) %> 
-            <%= truncShortText %>
-            </p>
-            <a href="posts/<%= post.title %>">Read More</a>
+                <% var shortText = post.content %> 
+                <% truncShortText = shortText.substring(0, 150) %> 
+                <%= truncShortText %>
+                </p>
+                <a href="/edit/<%= post.id %>">Edit</a>
+            <a href="/posts/<%= post.id %>">Read More</a>
+            <form action="/delete/<%= post.id %>" method="POST" style="display:inline;">
+  <button type="submit" class="btn btn-danger">Delete</button>
+</form>
         </div>
   <% }) %>
 </body>

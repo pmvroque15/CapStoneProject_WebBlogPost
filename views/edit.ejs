@@ -1,0 +1,33 @@
+<%- include('partials/header.ejs') %>
+<h2>Edit Post</h2>
+<form id="editForm">
+  <input type="text" name="title" value="<%= post.title %>" required />
+  <textarea name="content" required><%= post.content %></textarea>
+  <button type="submit">Save Changes</button>
+</form>
+
+<script>
+  document.getElementById('editForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+
+    const updatedPost = {
+      title: formData.get('title'),
+      content: formData.get('content')
+    };
+
+    const response = await fetch(`/posts/<%= post.id %>`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedPost)
+    });
+
+    if (response.ok) {
+      window.location.href = '/';
+    } else {
+      alert('Failed to update post');
+    }
+  });
+</script>
+<%- include('partials/footer.ejs') %>

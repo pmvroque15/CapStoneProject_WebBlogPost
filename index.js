@@ -32,27 +32,39 @@ app.get("/login", (req, res) => {
 })
 
 app.get("/about", (req, res) => {
-  res.render('about', 
-  {
-    aboutContent
-  });
+  res.render('about');
 });
 
 app.get("/contact", (req, res) => {
-  res.render("contact", 
-  {
-    contactContent
-  });
+  res.render("contact");
 });
+
 
 app.get("/compose", (req, res) => {
   res.render('compose')
 })
 
+
+
+app.get('/posts/:postID', (req, res) => { 
+  let postID = parseInt(req.params.postID);
+  const post = posts.find(p => p.id === postID);
+
+  if (post) {
+    res.render('post', {
+      title: post.title,
+      content: post.content
+    });
+  } else {
+    res.redirect('/');
+  }
+});
+
 app.post("/compose", (req, res) => {
   const postTitle = req.body.postTitle
   const postContent = req.body.postContent
   const postObj = {
+    id: Date.now(),
     title: postTitle,
     content: postContent
   }
@@ -61,33 +73,41 @@ app.post("/compose", (req, res) => {
   res.redirect('/')
 })
 
+app.post('/delete/:postID', (req, res) => {
+  const id = parseInt(req.params.postID);
+  const index = posts.findIndex(post => post.id === id);
 
-
-app.get('/posts/:postID', (req, res) => { 
-  let postTitle = req.params.postID
-  let postContent = ''  
-  let title = ''        
-  let currentContent = '' 
-
-  posts.forEach((post) => {
-    
-    if(_.toLower(postTitle) === _.toLower(post.title)) {
-      title = post.title
-      currentContent = post.content  
-    }
-  })
-
-  if(title) {  
-    res.render(
-      'post',
-      {
-        title,
-        content: currentContent  
-      })
-  } else {
-    res.redirect('/')  
+  if (index !== -1) {
+    posts.splice(index, 1);
   }
-})
+
+  res.redirect('/');
+});
+
+app.get("/edit/:postID", (req, res) => {
+  const id = parseInt(req.params.postID);
+  const post = posts.find(p => p.id === id);
+  if (post) {
+    res.render("edit", { post });
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.put("/posts/:postID", (req, res) => {
+  const id = parseInt(req.params.postID);
+  const index = posts.findIndex(p => p.id === id);
+  if (index === -1) {
+    return res.status(404).json({ message: "Post not found" });
+  }
+
+  posts[index].title = req.body.title;
+  posts[index].content = req.body.content;
+
+  res.json({ message: "Post updated successfully" });
+});
+
+
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
